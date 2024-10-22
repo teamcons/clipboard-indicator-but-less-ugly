@@ -5,7 +5,7 @@
 
 public class Clipboard.Indicator : Wingpanel.Indicator {
     private Gtk.Image panel_icon;
-    private Gtk.Grid main_grid;
+    private HistoryWidget history_widget;
 
     public Wingpanel.IndicatorManager.ServerType server_type { get; construct set; }
 
@@ -30,19 +30,21 @@ public class Clipboard.Indicator : Wingpanel.Indicator {
             }
         }
 
+        get_widget ();
         return panel_icon;
     }
 
     public override Gtk.Widget? get_widget () {
-        if (main_grid == null) {
-            if (server_type == Wingpanel.IndicatorManager.ServerType.GREETER) {
-                main_grid = null;
-            } else {
-                main_grid = new HistoryWidget ();
-            }
+        if (history_widget == null &&
+            server_type == Wingpanel.IndicatorManager.ServerType.SESSION) {
+                history_widget = new HistoryWidget ();
+                history_widget.close_request.connect (() => {
+                    close ();
+                });
+                history_widget.wait_for_text ();
         }
 
-        return main_grid;
+        return history_widget;
     }
 
     public override void opened () {
@@ -50,6 +52,8 @@ public class Clipboard.Indicator : Wingpanel.Indicator {
 
     public override void closed () {
     }
+
+
 }
 
 public Wingpanel.Indicator? get_indicator (Module module, Wingpanel.IndicatorManager.ServerType server_type) {
