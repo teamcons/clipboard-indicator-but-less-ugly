@@ -77,10 +77,10 @@ public class Clipboard.HistoryWidget : Gtk.Box {
 
         construct {
             var label = new Gtk.Label (text) {
-                halign = Gtk.Align.START,
+                halign = Gtk.Align.CENTER,
                 valign = Gtk.Align.CENTER,
                 xalign = 0.0f,
-                yalign = 0.5f,
+                yalign = 0.0f,
                 margin_top = 6,
                 margin_bottom = 6,
                 margin_start = 3,
@@ -92,7 +92,7 @@ public class Clipboard.HistoryWidget : Gtk.Box {
                 tooltip_text = text
             };
 
-            label.get_style_context ().add_class (Granite.STYLE_CLASS_CARD);
+            //label.get_style_context ().add_class (Granite.STYLE_CLASS_CARD);
             add (label);
         }
     }
